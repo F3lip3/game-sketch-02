@@ -1,0 +1,12 @@
+{
+  "name": "game-sketch-02",
+  "displayName": "game-sketch-02",
+  "expo": {
+    "name": "game-sketch-02",
+    "slug": "game-sketch-02",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
