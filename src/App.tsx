@@ -1,5 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
+import SpriteSheet, { ISpriteSheetFunctions } from './components/SpriteSheet';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,9 +12,29 @@ const styles = StyleSheet.create({
 });
 
 const App: React.FC = () => {
+  const spriteSheetRef = useRef<ISpriteSheetFunctions>(null);
+
+  useEffect(() => {
+    spriteSheetRef.current.play({
+      type: 'move_down',
+      loop: true
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <SpriteSheet
+        ref={spriteSheetRef}
+        source={require('./assets/warrior_01.png')}
+        columns={30}
+        rows={4}
+        animations={{
+          move_right: Array.from({ length: 30 }, (v, i) => i * 1),
+          move_down: Array.from({ length: 30 }, (v, i) => i * 1),
+          move_left: Array.from({ length: 30 }, (v, i) => i * 1),
+          move_up: Array.from({ length: 30 }, (v, i) => i * 1)
+        }}
+      />
     </View>
   );
 };
