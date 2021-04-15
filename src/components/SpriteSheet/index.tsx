@@ -59,6 +59,7 @@ interface ISpriteSheetProps {
   frameWidth?: number;
   offsetX?: number;
   offsetY?: number;
+  coords?: ICoords;
 }
 
 const SpriteSheet: React.ForwardRefRenderFunction<
@@ -75,7 +76,8 @@ const SpriteSheet: React.ForwardRefRenderFunction<
     frameHeight: initialFrameHeight,
     frameWidth: initialFrameWidth,
     offsetX: initialOffsetX,
-    offsetY: initialOffsetY
+    offsetY: initialOffsetY,
+    coords = { x: 0, y: 0 }
   },
   ref
 ) => {
@@ -260,7 +262,10 @@ const SpriteSheet: React.ForwardRefRenderFunction<
         {
           height: frameHeight,
           width: frameWidth,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          position: 'absolute',
+          left: coords.x,
+          top: coords.y
         }
       ]}
     >

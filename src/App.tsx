@@ -1,7 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import GamePad, { IGamePadOutput } from './components/GamePad';
-import SpriteSheet, { ISpriteSheetFunctions } from './components/SpriteSheet';
+import Player from './components/Player';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,18 +23,19 @@ const styles = StyleSheet.create({
 });
 
 const App: React.FC = () => {
-  const directionRef = useRef('');
-  const spriteSheetRef = useRef<ISpriteSheetFunctions>(null);
+  // const directionRef = useRef('');
+  // const spriteSheetRef = useRef<ISpriteSheetFunctions>(null);
 
   const handleMovement = useCallback(({ direction, speed }: IGamePadOutput) => {
-    if (speed === 0) {
-      spriteSheetRef.current.stop();
-    } else if (direction !== directionRef.current) {
-      spriteSheetRef.current.play({
-        type: `move_${direction}`,
-        loop: true
-      });
-    }
+    console.info(direction, speed);
+    // if (speed === 0) {
+    //   spriteSheetRef.current.stop();
+    // } else if (direction !== directionRef.current) {
+    //   spriteSheetRef.current.play({
+    //     type: `move_${direction}`,
+    //     loop: true
+    //   });
+    // }
 
     // if (engine) {
     //   engine.dispatch({ type: `move_${direction}`, speed });
@@ -45,18 +46,7 @@ const App: React.FC = () => {
     <>
       <SafeAreaView />
       <View style={styles.container}>
-        <SpriteSheet
-          ref={spriteSheetRef}
-          source={require('./assets/warrior_01.png')}
-          columns={30}
-          rows={4}
-          animations={{
-            move_right: Array.from({ length: 30 }, (v, i) => i),
-            move_down: Array.from({ length: 30 }, (v, i) => i + 30),
-            move_left: Array.from({ length: 30 }, (v, i) => i + 60),
-            move_up: Array.from({ length: 30 }, (v, i) => i + 90)
-          }}
-        />
+        <Player x={64} y={120} />
         <GamePad
           maxSpeedLevel={1}
           onChange={handleMovement}
