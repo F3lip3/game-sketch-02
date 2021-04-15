@@ -36,8 +36,8 @@ interface IInterpolationRanges {
 
 export interface ISpriteSheetFunctions {
   play: (data: ISpriteSheetPlayProps) => void;
-  reset: (data: ISpriteSheetStopProps) => void;
-  stop: (data: ISpriteSheetStopProps) => void;
+  reset: () => void;
+  stop: () => void;
 }
 
 interface ISpriteSheetPlayProps {
@@ -59,10 +59,6 @@ interface ISpriteSheetProps {
   frameWidth?: number;
   offsetX?: number;
   offsetY?: number;
-}
-
-interface ISpriteSheetStopProps {
-  cb: (value: number) => void;
 }
 
 const SpriteSheet: React.ForwardRefRenderFunction<
@@ -155,8 +151,8 @@ const SpriteSheet: React.ForwardRefRenderFunction<
               in: input,
               out: [].concat(
                 ...animations[key].map(i => {
-                  const { x } = getFrameCoords(i);
-                  return [x, x];
+                  const { y } = getFrameCoords(i);
+                  return [y, y];
                 })
               )
             }
@@ -165,8 +161,6 @@ const SpriteSheet: React.ForwardRefRenderFunction<
       },
       {} as IInterpolationRanges
     );
-
-    console.info(JSON.stringify(ranges, null, 2));
     setInterpolationRanges(ranges);
   }, [animations, getFrameCoords]);
 
@@ -204,20 +198,14 @@ const SpriteSheet: React.ForwardRefRenderFunction<
     [animations, time]
   );
 
-  const reset = useCallback(
-    ({ cb }: ISpriteSheetStopProps) => {
-      time.stopAnimation(cb);
-      time.setValue(0);
-    },
-    [time]
-  );
+  const reset = useCallback(() => {
+    time.stopAnimation();
+    time.setValue(0);
+  }, [time]);
 
-  const stop = useCallback(
-    ({ cb }: ISpriteSheetStopProps) => {
-      time.stopAnimation(cb);
-    },
-    [time]
-  );
+  const stop = useCallback(() => {
+    time.stopAnimation();
+  }, [time]);
 
   useEffect(() => {
     let ratio = 1;
